@@ -29,7 +29,7 @@ def register_user():
     elif password_entry2.get() == a:
         messagebox.showwarning('ALERT', 'Enter your password again')
     elif password_entry.get() != password_entry2.get():
-        messagebox.showwarning('ALERT', "Sorry! Password donot match")
+        messagebox.showwarning('ALERT', "Sorry! Password do not match")
 
     else:
         username_info = username.get()
@@ -40,7 +40,7 @@ def register_user():
         file.close()
         username_entry.delete(0, END)
         password_entry.delete(0, END)
-        Label(screen1, text="Registration Success", fg="green", font=("calibri", 11)).pack()
+        Label(screen1, text="Registration Success", fg="blue", font=("calibri", 11)).pack()
         screen1.destroy()
         screen.destroy()
 
@@ -85,7 +85,6 @@ def register():
     password = StringVar()
     confirmpassword = StringVar()
     Label(screen1, text="REGISTER HERE!!", fg="#800080", bg='white', font=("francisco", 23)).place(x=350, y=150)
-    Label(screen1, text="").pack()
     Label(screen1, text="Username  ", fg="#800080", bg='white', font=("francisco", 18)).place(x=270, y=220)
     username_entry = Entry(screen1, width=25, borderwidth='5', textvariable=username)
     username_entry.place(x=480, y=220, height=30, width=200)
@@ -95,7 +94,7 @@ def register():
     Label(screen1, text="Confirm Password  ", fg="#800080", bg='white', font=("francisco", 18)).place(x=270, y=310)
     password_entry2 = Entry(screen1, width=25, borderwidth='5', textvariable=confirmpassword)
     password_entry2.place(x=480, y=310, height=30, width=200)
-    Label(screen1, text="").pack()
+
     Button(screen1, text="Register", width=10, fg="#800080", font=("francisco", 19),
            command=register_user).place(x=350, y=370, height=40)
 
@@ -115,7 +114,6 @@ def login():
     label3.place(x=-5, y=0)
 
     Label(screen2, text="HELLO AGAIN!", bg='white', fg="#0000FF", font=("francisco", 20, "bold")).place(x=470, y=150)
-    Label(screen2, text="").pack()
     global username_verify
     global password_verify
     username_verify = StringVar()
@@ -125,12 +123,10 @@ def login():
     Label(screen2, text="Username  ", bg='white', fg="#0000FF", font=("francisco", 18)).place(x=390, y=230)
     username_entry1 = Entry(screen2, width=25, borderwidth='5', textvariable=username_verify)
     username_entry1.place(x=530, y=230, height=30)
-    Label(screen2, text="").pack()
     Label(screen2, text="Password  ", bg='white', fg="#0000FF", font=("francisco", 18)).place(x=390, y=280)
     password_entry1 = Entry(screen2, show="*", width=25, borderwidth='5', textvariable=password_verify)
     password_entry1.place(x=530, y=280, height=30)
 
-    Label(screen2, text="").pack()
     Button(screen2, text="Login", width=10, fg="#0000FF", font=("francisco", 19), command=login_verify).place(x=480,
                                                                                                               y=350,
                                                                                                               height=40)
@@ -171,13 +167,8 @@ def main_screen():
     subtitle1.place(x=-130, y=0)
 
     # textboxes
-    Label(text=" ", bg='white').pack()
-    Label(text="", bg='white').pack()
-    Label(text="", bg='white').pack()
-    Label(text="", bg='white').pack()
     Button(frame1, text="Login", height="3", width="30", font=("CALBRIA", 14, "bold"), bg="#8bd3dd", fg="black",
            command=login).place(x=20, y=200)
-    Label(text="", bg='white').pack()
     Button(frame1, text="Register", height="3", width="30", font=("CALBRIA", 14, "bold"), bg="#8bd3dd", fg="black",
            command=register).place(x=20, y=350)
 
