@@ -124,7 +124,6 @@ def main():
         Id_number.delete(0, END)
         Branch.delete(0, END)
 
-
     def query():
         conn = sqlite3.connect('Studentmanagement.db')
 
@@ -140,7 +139,6 @@ def main():
             student_table.delete(*student_table.get_children())
             for row in records:
                 student_table.insert('', END, values=row)
-
 
         conn.commit()
         conn.close()
@@ -212,7 +210,6 @@ def main():
             Id_number.insert(0, records[10])
             Branch.insert(0, records[11])
 
-
     def editor():
         """this function will update the datas saved in the database."""
         conn = sqlite3.connect('Studentmanagement.db')
@@ -224,12 +221,12 @@ def main():
                 last_name = :last,
                 father_name = :father,
                 mother_name = :mother,
-                address1 = : permanent address,
-                address2 = : temporary address,
+                address1 = :permanent_address,
+                address2 = :temporary_address,
                 date_of_birth= :dob,
-                email = :email address
-                contact = :contact number,
-                Id_number = :ID number,
+                email = :email_address,
+                contact = :contact_number,
+                Id_number = :ID_number,
                 Branch = :Branch
                 
                 WHERE oid = :oid""",
@@ -237,21 +234,37 @@ def main():
                    'last': last_name.get(),
                    'father': father_name.get(),
                    'mother': mother_name.get(),
-                   'permanent address': address1.get(),
-                   ' temporary address': address2.get(),
+                   'permanent_address': address1.get(),
+                   'temporary_address': address2.get(),
                    'dob': date_of_birth.get(),
-                   'email address': email.get(),
-                   'contact number': contact.get(),
-                   'Id number': Id_number.get(),
+                   'email_address': email.get(),
+                   'contact_number': contact.get(),
+                   'ID_number': Id_number.get(),
                    'Branch': Branch.get(),
                    'oid': record_id
                    })
         conn.commit()
         conn.close()
-        
 
+    def search_data():
+        conn = sqlite3.connect('Studentmanagement.db')
 
+        c = conn.cursor()
+        # search data of the database
+        record_id = search.get()
+        c.execute("SELECT *, oid FROM addresses where oid=" + record_id)
 
+        records = c.fetchall()
+        # print(records)
+
+        # Loop through the results
+        if (len(records) != 0):
+            student_table.delete(*student_table.get_children())
+            for row in records:
+                student_table.insert('', END, values=row)
+
+        conn.commit()
+        conn.close()
 
 
 
@@ -262,9 +275,6 @@ def main():
         if response > 0:
             root.destroy()
             return
-
-
-
 
     # frames
     frame = Frame(root, bg='#8bd3dd', relief=GROOVE, borderwidth=5)
@@ -282,19 +292,19 @@ def main():
 
     # show dataframe
     style = ttk.Style()
-    style.configure('Treeview.Heading', font=('Times', 12, 'italic '), foreground='black')
+    style.configure('Treeview.Heading', font=('Times', 12, 'italic '), foreground='blue')
     style.configure('Treeview', font=('Times', 10, 'italic '), fg='black', bg='cyan')
     scroll_x = Scrollbar(showentryframe2, orient=HORIZONTAL)
     scroll_y = Scrollbar(showentryframe2, orient=VERTICAL)
     student_table = Treeview(showentryframe2, columns=(
-         'First Name', 'Last Name', 'Father Name', 'Mother Name', 'Permanent Address', 'Gender',
+        'First Name', 'Last Name', 'Father Name', 'Mother Name', 'Permanent Address', 'Gender',
         'Temporary Address', 'D.O.B', 'Email Address', 'Contact Number', 'ID Number', 'Branch', 'Delete/Update ID'),
                              yscrollcommand=scroll_y.set, xscrollcommand=scroll_x.set)
     scroll_x.pack(side=BOTTOM, fill=X)
     scroll_y.pack(side=RIGHT, fill=Y)
     scroll_x.config(command=student_table.xview)
     scroll_y.config(command=student_table.yview)
-    #student_table.heading('No', text='No')
+    # student_table.heading('No', text='No')
     student_table.heading('First Name', text='First Name', anchor=W)
     student_table.heading('Last Name', text='Last Name', anchor=W)
     student_table.heading('Father Name', text='Father Name', anchor=W)
@@ -310,7 +320,7 @@ def main():
     student_table.heading('Delete/Update ID', text='Delete/Update ID', anchor=W)
     student_table['show'] = 'headings'
 
-   # student_table.column('No', width=50)
+    # student_table.column('No', width=50)
     student_table.column('#0', stretch=NO, minwidth=0, width=0)
     student_table.column('#1', stretch=NO, minwidth=0, width=100)
     student_table.column('#2', stretch=NO, minwidth=0, width=150)
@@ -364,16 +374,16 @@ def main():
     search = Entry(Buttondataframe2, font=('Times', 14, 'italic '), width=15, borderwidth=3)
     search.place(x=410, y=3)
     search_btn = Button(Buttondataframe2, font=('calibri', 14, 'bold'), width=10, text="SEARCH", bg='#FF1493',
-                        fg='white')
+                        fg='white', command=search_data)
     search_btn.place(x=620, y=2, heigh=30)
     show_btn = Button(Buttondataframe2, font=('calibri', 14, 'bold'), width=10, text="SHOW ALL", bg='#FF1493',
                       fg='white', command=query)
     show_btn.place(x=750, y=2, heigh=30)
 
-    # drop down menu for serching option
+    # drop down menu for searching option
     option = ["Name", "Id Number", "Contact Number"]
     option_dropdown = StringVar()
-    option_dropdown.set("select option")
+    option_dropdown.set("Id Number")
     drop2 = OptionMenu(Buttondataframe2, option_dropdown, *option)
     drop2.config(font=('Times', 14, 'italic '))
     drop2.place(x=260, y=3, width=140)
@@ -424,7 +434,8 @@ def main():
                        fg='white', command=clear)
     query_btn.place(x=5, y=75, height=40)
 
-    edit_btn = Button(Buttondataframe1, font=('chiller', 20, 'bold'), width=13, text="UPDATE", bg='#FF1493', fg='white',command=update)
+    edit_btn = Button(Buttondataframe1, font=('chiller', 20, 'bold'), width=13, text="UPDATE", bg='#FF1493', fg='white',
+                      command=update)
 
     edit_btn.place(x=5, y=135, height=40)
 
@@ -439,7 +450,6 @@ def main():
     logout_btn = Button(Buttondataframe1, font=('chiller', 20, 'bold'), width=13, text="LOGOUT", bg='#FF1493',
                         fg='white', command=logout)
     logout_btn.place(x=5, y=315, height=40)
-
 
     root.mainloop()
 
