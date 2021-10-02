@@ -266,9 +266,6 @@ def main():
         conn.commit()
         conn.close()
 
-
-
-
     def logout():
         response = messagebox.askyesno("Logout Application", "Are you sure want to close this application",
                                        icon="warning")
@@ -369,6 +366,9 @@ def main():
     # for searching
     search_label = Label(Buttondataframe2, text='Search By', bg='#8bd3dd', font=('Times', 17, 'italic bold'))
     search_label.place(x=100, y=3)
+    search1_label = Label(Buttondataframe2, text='ID Number', bg='#8bd3dd', font=('Times', 17, 'italic bold'))
+    search1_label.place(x=250, y=3)
+
     # option= Entry(Buttondataframe2, font = ('Times', 14 ,'italic ' ), width = 10, borderwidth =3)
     # option.place(x =160 , y = 3)
     search = Entry(Buttondataframe2, font=('Times', 14, 'italic '), width=15, borderwidth=3)
@@ -379,14 +379,6 @@ def main():
     show_btn = Button(Buttondataframe2, font=('calibri', 14, 'bold'), width=10, text="SHOW ALL", bg='#FF1493',
                       fg='white', command=query)
     show_btn.place(x=750, y=2, heigh=30)
-
-    # drop down menu for searching option
-    option = ["Name", "Id Number", "Contact Number"]
-    option_dropdown = StringVar()
-    option_dropdown.set("Id Number")
-    drop2 = OptionMenu(Buttondataframe2, option_dropdown, *option)
-    drop2.config(font=('Times', 14, 'italic '))
-    drop2.place(x=260, y=3, width=140)
 
     # entry
     first_name = Entry(Dataentryframe, font=('Times', 14, 'italic '), width=15, borderwidth=5)
@@ -420,7 +412,7 @@ def main():
     # drop down menu for gender
     gender = ["Male", "Female", "Other", "Prefer not to say"]
     gender_dropdown = StringVar()
-    gender_dropdown.set("select gender")
+    gender_dropdown.set("Female")
     drop1 = OptionMenu(Dataentryframe, gender_dropdown, *gender)
     drop1.config(font=('Times', 14, 'italic '))
     drop1.place(x=650, y=125, width=160)
